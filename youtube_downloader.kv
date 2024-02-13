@@ -1,0 +1,42 @@
+<DownloadBoxLayout>:
+    orientation: 'vertical'
+    Image:
+        source: "foto.png"
+        size_hint_y: None
+        height: 200
+    Label:
+        text: "Aplicación para descargar \n       videos de Youtube"
+        font_size: root.get_font_size()
+        italic: True
+        text_size: (None, None)
+    TextInput:
+        id: videos
+        multiline: False
+        font_size: root.get_font_size()
+        size_hint_y: None
+        height: 35
+        padding: [10, 0]
+    ProgressBar:
+        id: progressbar
+        max: 100
+        size_hint_y: None
+        height: 40
+        value: 0
+        bar_color: 1, 0, 0, 1
+    Button:
+        id: boton_descarga
+        text: "Descargar"
+        bold: True
+        size_hint_y: None
+        height: 35
+        on_press: root.start_download(self)
+    Label:
+        id: message_label
+        text: ""
+        font_size: root.get_font_size()
+        italic: True
+    Label:
+        id: porcentaje_label
+        text: ""
+        font_size: root.get_font_size()
+        italic: True
