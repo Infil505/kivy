@@ -1,16 +1,16 @@
 name: CI
-
 on:
   push:
     branches: [ master ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
 
+      #used to cache dependencies with a timeout
       - name: Get Date
         id: get-date
         run: |
@@ -21,7 +21,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .buildozer_global
-          key: buildozer-global-${{ hashFiles('buildozer.spec') }}
+          key: buildozer-global-${{ hashFiles('buildozer.spec') }} # Replace with your path
 
       - uses: actions/cache@v2
         with:
@@ -29,12 +29,14 @@ jobs:
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
 
       - name: Build with Buildozer
-        run: buildozer android debug
-        env:
-          BUILD_WITH: master
+        uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          command: buildozer android debug
+          buildozer_version: stable
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: ${{ github.workspace }}/your-artifact-path
+          path: ${{ steps.buildozer.outputs.filename }}
