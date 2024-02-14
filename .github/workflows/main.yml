@@ -28,6 +28,9 @@ jobs:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
 
+      - name: Change permissions of .git/config
+        run: chmod 777 .git/config
+
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
@@ -40,3 +43,4 @@ jobs:
         with:
           name: package
           path: ${{ steps.buildozer.outputs.filename }}
+        
