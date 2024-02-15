@@ -52,7 +52,8 @@ jobs:
       - name: Download and unzip Android SDK
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip -O sdk-tools.zip
-          unzip -qq sdk-tools.zip -d $HOME/android-sdk
+          mkdir -p $HOME/android-sdk/cmdline-tools/latest
+          unzip -qq sdk-tools.zip -d $HOME/android-sdk/cmdline-tools/latest
           echo "y" | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$HOME/android-sdk --licenses
         env:
           RUNNER_TOOL_CACHE: ${{ runner.temp }}
