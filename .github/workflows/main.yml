@@ -46,6 +46,9 @@ jobs:
           pip install --upgrade pip
           pip install buildozer
 
+      - name: Install Cython
+        run: pip install cython
+
       - name: Verify Buildozer installation
         run: buildozer --version
 
