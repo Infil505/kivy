@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches: [ master ]
@@ -8,28 +9,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v2
         with:
-          node-version: '20' # Actualización a Node.js 20
+          node-version: '20'
 
-      # Usado para cachear dependencias con un tiempo de espera
+      - uses: actions/checkout@v2
+
       - name: Get Date
         id: get-date
         run: |
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         shell: bash
 
-      - name: Cache Buildozer global directory
+      - name: Cache dependencies
+        id: cache-dependencies
         uses: actions/cache@v2
         with:
-          path: .buildozer_global
-          key: buildozer-global-${{ hashFiles('buildozer.spec') }} # Reemplaza con tu ruta
-
-      - uses: actions/cache@v2
-        with:
-          path: .buildozer
-          key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
-          node-version: '20' # Actualización a Node.js 20
+          path: |
+            .buildozer_global
+            .buildozer
+          key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.get-date.outputs.date }}-
 
       - name: Change permissions of .git/config
         run: chmod 777 .git/config
