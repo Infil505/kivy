@@ -38,6 +38,9 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install distutils
+        run: sudo apt-get install -y python3-distutils
+
       - name: Install Buildozer
         run: pip install buildozer
 
