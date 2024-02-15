@@ -49,14 +49,20 @@ jobs:
       - name: Install Cython
         run: pip install cython
 
-      - name: Accept Android SDK Build-Tools 34 license
-        run: yes | sdkmanager --licenses
+      - name: Download and unzip Android SDK
+        run: |
+          wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip -O sdk-tools.zip
+          mkdir -p $RUNNER_TOOL_CACHE/Android
+          unzip -qq sdk-tools.zip -d $RUNNER_TOOL_CACHE/Android
+          echo "y" | $RUNNER_TOOL_CACHE/Android/tools/bin/sdkmanager --licenses
+        env:
+          RUNNER_TOOL_CACHE: ${{ runner.temp }}
 
       - name: Install Android SDK Build-Tools 34
-        run: sdkmanager "build-tools;34.0.0"
+        run: $RUNNER_TOOL_CACHE/Android/tools/bin/sdkmanager "build-tools;34.0.0"
 
       - name: Install Aidl
-        run: sdkmanager "platform-tools"
+        run: $RUNNER_TOOL_CACHE/Android/tools/bin/sdkmanager "platform-tools"
 
       - name: Verify Buildozer installation
         run: buildozer --version
