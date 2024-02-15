@@ -54,15 +54,15 @@ jobs:
           wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip -O sdk-tools.zip
           mkdir -p $RUNNER_TOOL_CACHE/Android
           unzip -qq sdk-tools.zip -d $RUNNER_TOOL_CACHE/Android
-          echo "y" | $RUNNER_TOOL_CACHE/Android/cmdline-tools/bin/sdkmanager --licenses
+          echo "y" | $RUNNER_TOOL_CACHE/Android/cmdline-tools/latest/bin/sdkmanager --sdk_root=$RUNNER_TOOL_CACHE/Android/cmdline-tools/latest --licenses
         env:
           RUNNER_TOOL_CACHE: ${{ runner.temp }}
 
       - name: Install Android SDK Build-Tools 34
-        run: $RUNNER_TOOL_CACHE/Android/cmdline-tools/bin/sdkmanager "build-tools;34.0.0"
+        run: $RUNNER_TOOL_CACHE/Android/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0"
 
       - name: Install Aidl
-        run: $RUNNER_TOOL_CACHE/Android/cmdline-tools/bin/sdkmanager "platform-tools"
+        run: $RUNNER_TOOL_CACHE/Android/cmdline-tools/latest/bin/sdkmanager "platform-tools"
 
       - name: Verify Buildozer installation
         run: buildozer --version
