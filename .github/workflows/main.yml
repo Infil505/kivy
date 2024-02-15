@@ -9,8 +9,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          node-version: '20' # Actualización a Node.js 20
 
-      #used to cache dependencies with a timeout
+      # Usado para cachear dependencias con un tiempo de espera
       - name: Get Date
         id: get-date
         run: |
@@ -21,12 +23,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .buildozer_global
-          key: buildozer-global-${{ hashFiles('buildozer.spec') }} # Replace with your path
+          key: buildozer-global-${{ hashFiles('buildozer.spec') }} # Reemplaza con tu ruta
 
       - uses: actions/cache@v2
         with:
           path: .buildozer
           key: ${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('buildozer.spec') }}
+          node-version: '20' # Actualización a Node.js 20
 
       - name: Change permissions of .git/config
         run: chmod 777 .git/config
@@ -43,4 +46,3 @@ jobs:
         with:
           name: package
           path: ${{ steps.buildozer.outputs.filename }}
-        
