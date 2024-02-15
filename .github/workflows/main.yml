@@ -33,16 +33,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ steps.get-date.outputs.date }}-
 
-      - name: Install Python and pip
+      - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: '3.8'
 
       - name: Install distutils
-        run: sudo apt-get install -y python3-distutils
+        run: sudo apt-get install -y --reinstall python3-distutils
 
       - name: Install Buildozer
-        run: pip install buildozer
+        run: |
+          pip install --upgrade pip
+          pip install buildozer
 
       - name: Verify Buildozer installation
         run: buildozer --version
