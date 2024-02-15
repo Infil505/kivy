@@ -33,6 +33,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ steps.get-date.outputs.date }}-
 
+      - name: Install Python and pip
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Buildozer
+        run: pip install buildozer
+
+      - name: Verify Buildozer installation
+        run: buildozer --version
+
       - name: Change permissions of .git/config
         run: chmod 777 .git/config
 
